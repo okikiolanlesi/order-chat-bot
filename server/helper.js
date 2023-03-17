@@ -10,7 +10,7 @@
 // When a customer selects “97”, the bot should be able to return current order
 // When a customer selects “0”, the bot should cancel the order if there is.
 
-const items = {
+exports.items = {
   1: "Pizza",
   2: "Burger",
   3: "Pasta",
@@ -44,3 +44,13 @@ function logic(num) {
     return "Invalid input";
   }
 }
+
+exports.botMessage = (message, socket) => {
+  console.log(" Bot message sent");
+  socket.emit("Bot message", { message, name: "Chat bot" });
+};
+
+exports.userMessage = (data, socket) => {
+  console.log(" User message received", data.message);
+  socket.emit("User message", data);
+};
