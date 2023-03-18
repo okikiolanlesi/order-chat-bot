@@ -13,7 +13,9 @@ const io = new Server(server);
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
+app.get("/health-check", (req, res) => {
+  res.status(200).send("OK");
+});
 const sessionMiddleware = session({
   secret: process.env.MONGO_URI || "secret",
   resave: false,
