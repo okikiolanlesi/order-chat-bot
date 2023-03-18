@@ -90,7 +90,7 @@ const responseExec = (data, socket, message, state, items) => {
       }
       message = `${items[data.message].name} added to order\n`;
     } else {
-      message = "Invalid input\n";
+      message = "Invalid input.\n Please select a number from the list\n";
       message += controlsMessage;
     }
   } else {
