@@ -32,6 +32,9 @@ const userMessage = (data, socket) => {
 };
 
 const responseExec = (data, socket, message, state, items) => {
+  const controlsMessage =
+    "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+
   if (data.message === "1" && !state.placing) {
     message = "Here are the items you can order:\n";
     state.placing = true;
@@ -46,8 +49,7 @@ const responseExec = (data, socket, message, state, items) => {
       state.currentOrder = {};
     } else {
       message = "No order to place\n";
-      message +=
-        "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+      message += controlsMessage;
     }
   } else if (data.message === "98") {
     if (state.orders.length > 0) {
@@ -68,8 +70,7 @@ const responseExec = (data, socket, message, state, items) => {
       }
     } else {
       message = "No current order\n";
-      message +=
-        "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+      message += controlsMessage;
     }
   } else if (data.message === "0") {
     if (Object.keys(state.currentOrder).length === 0) {
@@ -79,21 +80,18 @@ const responseExec = (data, socket, message, state, items) => {
 
       message = "Order cancelled\n";
     }
-    message +=
-      "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+    message += controlsMessage;
   } else if (state.placing) {
     if (data.message in items) {
       state.currentOrder[data.message] = items[data.message];
       message = `${items[data.message]} added to order\n`;
     } else {
       message = "Invalid input\n";
-      message +=
-        "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+      message += controlsMessage;
     }
   } else {
     message = "Invalid input\n";
-    message +=
-      "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n";
+    message += controlsMessage;
   }
 
   if (message.length > 0) {
