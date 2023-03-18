@@ -59,7 +59,7 @@ mongoose
   .connect(process.env.MONGO_URI || "mongodb://localhost:27017/chatbot")
   .then(() => {
     console.log("Connected to database");
-    server.listen(4000, () => {
+    server.listen(process.env.PORT || 4000, () => {
       console.log("Server is running on port 4000");
     });
   })
