@@ -4,7 +4,7 @@ const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
 const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
+const MongoStore = require("connect-mongo");
 const { botMessage, userMessage, items, responseExec } = require("./helper");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -20,10 +20,8 @@ const sessionMiddleware = session({
   secret: process.env.MONGO_URI || "secret",
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false },
-  store: new MongoDBStore({
-    uri: process.env.MONGO_URI || "mongodb://localhost:27017/chatbot",
-    collection: "sessions",
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI || "mongodb://localhost/test-app",
   }),
 });
 
@@ -39,13 +37,15 @@ io.on("connection", (socket) => {
     placing: false,
   };
   req.session.state = stateStructure;
-
+  req.session.save();
   const state = req.session.state;
   socket.on("user message", (data) => {
     userMessage(data, socket);
     let message = "";
 
     responseExec(data, socket, message, state, items);
+
+    req.session.save();
   });
 
   socket.on("welcome", (data) => {
@@ -54,6 +54,10 @@ io.on("connection", (socket) => {
       "Select 1 to Place an order\nSelect 99 to checkout order\nSelect 98 to see order history\nSelect 97 to see current order\nSelect 0 to cancel order\n",
       socket
     );
+  });
+
+  socket.on("disconnect", () => {
+    req.session.destroy();
   });
 });
 
