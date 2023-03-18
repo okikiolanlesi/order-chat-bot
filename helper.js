@@ -11,16 +11,16 @@
 // When a customer selects “0”, the bot should cancel the order if there is.
 
 const items = {
-  1: "Pizza",
-  2: "Burger",
-  3: "Pasta",
-  4: "Salad",
-  5: "Sandwich",
-  6: "Fries",
-  7: "Soda",
-  8: "Beer",
-  9: "Wine",
-  10: "Coffee",
+  1: { name: "Pizza" },
+  2: { name: "Burger" },
+  3: { name: "Pasta" },
+  4: { name: "Salad" },
+  5: { name: "Sandwich" },
+  6: { name: "Fries" },
+  7: { name: "Soda" },
+  8: { name: "Beer" },
+  9: { name: "Wine" },
+  10: { name: "Coffee" },
 };
 
 const botMessage = (message, socket) => {
@@ -39,7 +39,7 @@ const responseExec = (data, socket, message, state, items) => {
     message = "Here are the items you can order:\n";
     state.placing = true;
     for (let key in items) {
-      message += `${key} - ${items[key]}\n`;
+      message += `${key} - ${items[key].name}\n`;
     }
     message += "Please select a number to add to order";
   } else if (data.message === "99") {
@@ -83,8 +83,12 @@ const responseExec = (data, socket, message, state, items) => {
     message += controlsMessage;
   } else if (state.placing) {
     if (data.message in items) {
-      state.currentOrder[data.message] = items[data.message];
-      message = `${items[data.message]} added to order\n`;
+      if (state.currentOrder[items[data.message].name]) {
+        state.currentOrder[items[data.message].name]++;
+      } else {
+        state.currentOrder[items[data.message].name] = 1;
+      }
+      message = `${items[data.message].name} added to order\n`;
     } else {
       message = "Invalid input\n";
       message += controlsMessage;
