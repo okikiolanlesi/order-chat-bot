@@ -53,7 +53,8 @@
         background: #efefef;
       }
       #messages > .user {
-        background: blue;
+        background: rgb(108, 108, 231);
+        color: white;
       }
     </style>
   </head>
@@ -91,7 +92,9 @@
 
       socket.on("User message", function (data) {
         const item = document.createElement("p");
-        item.textContent = `${data.name}: ${data.message}`;
+        item.textContent = `${data.name === name ? "You" : data.name}: ${
+          data.message
+        }`;
         item.classList.add("user");
         document.getElementById("messages").appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
