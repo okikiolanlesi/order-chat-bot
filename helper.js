@@ -47,6 +47,7 @@ const responseExec = (data, socket, message, state, items) => {
       message = "order placed";
       state.orders.push(state.currentOrder);
       state.currentOrder = {};
+      state.placing = false;
     } else {
       message = "No order to place\n";
       message += controlsMessage;

@@ -3,6 +3,9 @@
   <head>
     <title>Okikiola Chat Bot</title>
     <style>
+      div {
+        white-space: pre-wrap;
+      }
       body {
         margin: 0;
         padding-bottom: 3rem;
@@ -91,7 +94,7 @@
 
       socket.on("Bot message", function (data) {
         const item = document.createElement("p");
-        item.textContent = `${data.name}: ${data.message}`;
+        item.textContent = `${data.name}:\n${data.message}`;
         item.classList.add("bot");
         document.getElementById("messages").appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
@@ -99,7 +102,7 @@
 
       socket.on("User message", function (data) {
         const item = document.createElement("p");
-        item.textContent = `${data.name === name ? "You" : name}: ${
+        item.textContent = `${data.name === name ? "You" : name}:\n${
           data.message
         }`;
         item.classList.add("user");
