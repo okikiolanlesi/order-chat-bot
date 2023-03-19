@@ -1,7 +1,8 @@
 # Order Chat Bot
 
 Link to live site [here](https://okikiola-chat-bot.onrender.com/)
-This chatbot will fulfills all the below requirements
+
+This chatbot fulfills all the below requirements
 
 ---
 
