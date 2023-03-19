@@ -1,10 +1,10 @@
 const express = require("express");
 const http = require("http");
 const app = express();
-const session = require("express-session");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
+// require('dotenv').config()
+// const mongoose = require("mongoose");
+// const session = require("express-session");
+// const MongoDBStore = require("connect-mongodb-session")(session);
 const { botMessage, userMessage, responseExec } = require("./helper");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -21,10 +21,10 @@ const sessionMiddleware = session({
   cookie: {
     secure: false,
   },
-  store: new MongoDBStore({
-    uri: process.env.MONGO_URI || "mongodb://localhost:27017/chatbot",
-    collection: "sessions",
-  }),
+  // store: new MongoDBStore({
+  //   uri: process.env.MONGO_URI || "mongodb://localhost:27017/chatbot",
+  //   collection: "sessions",
+  // }),
 });
 
 io.engine.use(sessionMiddleware);
@@ -58,9 +58,9 @@ io.on("connection", (socket) => {
     botMessage(controlsMessage, socket);
   });
 });
-
+console.log("here")
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then((result) => {
     console.log("Connected to database");
     server.listen(3000, () => {
