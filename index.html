@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Okikiola Chat Bot</title>
     <style>
       body {
         margin: 0;
@@ -53,12 +53,19 @@
         background: #efefef;
       }
       #messages > .user {
-        background: rgb(108, 108, 231);
-        color: white;
+        background: rgb(130, 130, 252);
       }
     </style>
   </head>
   <body>
+    <h1
+      style="
+        color: rgb(86, 160, 240);
+        border-bottom: 2px solid rgb(86, 160, 240);
+      "
+    >
+      Okikiola Food Order Bot
+    </h1>
     <div id="messages"></div>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
@@ -92,7 +99,7 @@
 
       socket.on("User message", function (data) {
         const item = document.createElement("p");
-        item.textContent = `${data.name === name ? "You" : data.name}: ${
+        item.textContent = `${data.name === name ? "You" : name}: ${
           data.message
         }`;
         item.classList.add("user");
